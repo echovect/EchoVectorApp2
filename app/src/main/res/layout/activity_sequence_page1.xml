@@ -23,7 +23,7 @@
         android:layout_width="184dp"
         android:layout_height="100dp"
         android:text="Influencer"
-        android:onClick="openActivityList"
+        android:onClick="openActivity3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/businessLoginButton"
         app:layout_constraintHorizontal_bias="0.551"

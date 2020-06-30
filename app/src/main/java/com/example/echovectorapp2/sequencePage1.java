@@ -22,9 +22,9 @@ public class sequencePage1 extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /** Calls product list page - intended for the influencer log in*/
-    public void openActivityList(View v) {
-        Intent intent = new Intent(this, ProductListActivity.class);
+    /** Opens third activity which is the product page*/
+    public void openActivity3(View v) {
+        Intent intent = new Intent(this, Activity3.class);
         startActivity(intent);
     }
 

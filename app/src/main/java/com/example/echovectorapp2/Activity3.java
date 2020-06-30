@@ -3,10 +3,13 @@ package com.example.echovectorapp2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +19,28 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class Activity3 extends AppCompatActivity {
+
+    ExpandableListView expandableListView;
+
+    /** Opens settings page */
+    public void openSettings(View v) {
+        Intent intent = new Intent(this, settings.class);
+        startActivity(intent);
+    }
+
+    /** Opens order page */
+    public void openOrders(View v) {
+        Intent intent = new Intent(this, orders.class);
+        startActivity(intent);
+    }
+
+    /** Opens first page of sequence */
+    public void startSequence(View v) {
+        Intent intent = new Intent(this, sequencePage1.class);
+        startActivity(intent);
+    }
+
+
 
     private static final String TAG = "Activity3";
     private TextView product;
@@ -29,6 +54,8 @@ public class Activity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_3);
+
+        //expandableListView = (ExpandableListView) findViewById(R.id.)
 
         //Getting by ids
         description = findViewById(R.id.productDescription);
