@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "402155844465-ufck2e105gffem99fot7qp69apl5mg90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.echovectorapp2",
+            "certificate_hash": "fb8e8aab0636ab538d8f9cab2907f1db9deb008c"
+          }
+        },
+        {
           "client_id": "402155844465-kg0dm597dhlisga09t81b6tloen1h9gc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

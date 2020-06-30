@@ -11,8 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     private Button button; // Button for Activity 2 which is registration
     private Button button2; //Button for Activity 3 which is products
-    private Button button3; //Button for Activity 4
-    private Button button4; // Button for Activity 5
+    private Button button3; //Button for Activity 4 which is upload product page
+    private Button button4; // Button for Activity 5 which is product status page
+    private Button startSequence;
+
+
     private Button button3_2; // Button for Activity 5
     private Button buttonList; // Button for Activity 5
     @Override
@@ -48,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openActivity5(); //  Product Status Page
+            }
+        });
+
+        startSequence = (Button) findViewById(R.id.startSequence);
+        startSequence.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startSequence();
             }
         });
 
@@ -92,6 +103,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Activity5.class);
         startActivity(intent);
     }
+
+    /** Opens first page of sequence */
+    public void startSequence() {
+        Intent intent = new Intent(this, sequencePage1.class);
+        startActivity(intent);
+    }
+
+
+
+
+
+
+
+
+
 
     /** Opens fifth activity which is the product status page */
     public void openActivity3_2() {

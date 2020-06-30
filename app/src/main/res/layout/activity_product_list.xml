@@ -7,6 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".ProductListActivity">
 
+
+    <Button
+        android:id="@+id/productList"
+        android:layout_width="431dp"
+        android:layout_height="104dp"
+        android:onClick="openActivityList"
+        android:text="Product List"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.987"></Button>
+
+    <Button
+        android:id="@+id/productStatus"
+        android:layout_width="110dp"
+        android:layout_height="67dp"
+        android:onClick="openActivity5"
+        android:text="Check Product Status"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.987"></Button>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="119dp"
+        android:layout_height="69dp"
+        android:text="Logout"
+        android:onClick="startSequence"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"></Button>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -17,8 +56,10 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/list_no_product"

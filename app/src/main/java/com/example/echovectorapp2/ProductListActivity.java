@@ -42,6 +42,25 @@ public class ProductListActivity extends AppCompatActivity {
     private CollectionReference collectionReference = db.collection("Product_Posted");
     private TextView noProductEntry;
 
+    /** Opens fifth activity which is the product status page */
+    public void openActivity5(View v) {
+        Intent intent = new Intent(this, Activity5.class);
+        startActivity(intent);
+    }
+
+    /** Opens first page of sequence */
+    public void startSequence(View v) {
+        Intent intent = new Intent(this, sequencePage1.class);
+        startActivity(intent);
+    }
+
+    /** Opens product list*/
+    public void openActivityList(View v) {
+        Intent intent = new Intent(this, ProductListActivity.class);
+        startActivity(intent);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

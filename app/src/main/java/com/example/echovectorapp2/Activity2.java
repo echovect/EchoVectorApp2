@@ -3,6 +3,7 @@ package com.example.echovectorapp2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,9 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,6 +44,7 @@ public class Activity2 extends AppCompatActivity {
 
     //Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -52,6 +57,7 @@ public class Activity2 extends AppCompatActivity {
         name = findViewById(R.id.nameInput);
         password= findViewById(R.id.passwordInput);
 
+        firebaseAuth = FirebaseAuth.getInstance();
 
         // Create a new user with a name, email, and password
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -61,15 +67,36 @@ public class Activity2 extends AppCompatActivity {
                 String nameField = name.getText().toString().trim();
                 String emailField = email.getText().toString().trim();
                 String passwordField = password.getText().toString().trim();
-                Map<String, Object> user = new HashMap<>();
+               final Map<String, Object> user = new HashMap<>();
+
+                user.put(KEY_NAME, nameField);
+                user.put(KEY_EMAIL, emailField);
+                user.put(KEY_PASSWORD, passwordField);
 
 
-                    user.put(KEY_NAME, nameField);
-                    user.put(KEY_EMAIL, emailField);
-                    user.put(KEY_PASSWORD, passwordField);
+                if (TextUtils.isEmpty(nameField)) {
 
-                if(!TextUtils.isEmpty(nameField) && !TextUtils.isEmpty(emailField) && !TextUtils.isEmpty(passwordField)) {
-                    db.collection("Users")
+                    Toast.makeText(Activity2.this, "Please enter fullname", Toast.LENGTH_LONG).show();
+                }
+                if (TextUtils.isEmpty(emailField)) {
+
+                    Toast.makeText(Activity2.this, "Please enter email", Toast.LENGTH_LONG).show();
+                }
+                if (TextUtils.isEmpty(passwordField)) {
+
+                    Toast.makeText(Activity2.this, "Please enter password", Toast.LENGTH_LONG).show();
+                }
+
+                if (passwordField.length() < 6) {
+                    Toast.makeText(Activity2.this, "your password is too short", Toast.LENGTH_LONG).show();
+                }
+
+                firebaseAuth.createUserWithEmailAndPassword(emailField, passwordField)
+                        .addOnCompleteListener(Activity2.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    db.collection("Users")
                             .add(user)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
@@ -81,17 +108,22 @@ public class Activity2 extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Activity2.this, "Error! Registration failed.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Activity2.this, "Error! adding data to database.", Toast.LENGTH_LONG).show();
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
 
                             });
-                }else{
-                    Toast.makeText(Activity2.this, "Please input all details.", Toast.LENGTH_LONG).show();
-                }
+                                    startActivity(new Intent(getApplicationContext(), Activity4.class));
+
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(Activity2.this, "Authentication failed", Toast.LENGTH_LONG).show();
+
+                                }
+
+
+                            }
+                        });
 
             }
-        });
-
-    }
-}
+            });}}
