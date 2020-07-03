@@ -4,9 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ImageDecoder;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +36,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.io.Files;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,16 +46,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.protobuf.compiler.PluginProtos;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.Objects;
 
+import java.io.File;
 import model.Product;
 
 public class Activity3_2 extends AppCompatActivity implements View.OnClickListener {
 
     private static final int GALLERY_CODE = 1;
     private static final String TAG = "Activity3_2";
+    private static final int THUMBNAIL_SIZE = 64 ;
     private Button uploadButton;
     private ProgressBar progressBar;
     private ImageView addPhotoButton;
@@ -60,6 +87,7 @@ public class Activity3_2 extends AppCompatActivity implements View.OnClickListen
 
     private CollectionReference collectionReference = db.collection("Product_Posted");
     private Uri imageUri;
+    private Bitmap bmp;
 
     /** Opens first page of sequence */
     public void startSequence(View v) {
@@ -210,13 +238,163 @@ public class Activity3_2 extends AppCompatActivity implements View.OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Bitmap bitmap = null;
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_CODE && resultCode == RESULT_OK) {
             if (data != null) {
                 imageUri = data.getData(); // we have the actual path to the image
                 imageView.setImageURI(imageUri);//show image
 
+                try {
+                    bitmap = getThumbnail(imageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(bitmap != null) {
+                    try {
+                        addWatermarkOnImage(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+
             }
         }
+    }
+
+    public Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input1;
+        input1 = this.getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input1, null, onlyBoundsOptions);
+        input1.close();
+
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1)) {
+            return null;
+        }
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > THUMBNAIL_SIZE) ? (originalSize / THUMBNAIL_SIZE) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+//        bitmapOptions.inDither = true; //optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//
+        input1 = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input1, null, bitmapOptions);
+        input1.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
+
+
+    private void  addWatermarkOnImage(Bitmap sourceImage) throws IOException {
+
+//        imageView.buildDrawingCache();
+        Bitmap watermark;
+
+            int w, h;
+            Canvas c;
+            Paint paint;
+            Matrix matrix;
+            float scale;
+            RectF r;
+            w = sourceImage.getWidth();
+            h = sourceImage.getHeight();
+
+//            Create the new bitmap
+            bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
+            // Copy the original bitmap into the new one
+            c = new Canvas(bmp);
+            c.drawBitmap(sourceImage, 0, 0, paint);
+            // Load the watermark
+            Drawable drawable = getResources().getDrawable(R.drawable.logo2);
+
+            watermark = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.logo2);
+
+
+        if (drawable instanceof BitmapDrawable) {
+            watermark = ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        watermark =bitmap;
+
+
+            // Scale the watermark to be approximately 35% of the source image height
+            if(watermark != null)
+                scale = (float) (((float) h * 0.4) / (float) watermark.getHeight());
+            else
+                scale=2;
+            // Create the matrix
+            matrix = new Matrix();
+            matrix.postScale(scale, scale);
+            // Determine the post-scaled size of the watermark
+
+            if(watermark !=null)
+                r = new RectF(0, 0, watermark.getWidth(), watermark.getHeight());
+            else
+                r= new RectF(0, 0, 30, 30);
+            matrix.mapRect(r);
+            // Move the watermark to the bottom right corner
+            matrix.postTranslate(w - r.width(), h - r.height());
+            // Draw the watermark
+            c.drawBitmap(watermark, matrix, paint);
+            // Free up the bitmap memory
+            watermark.recycle();
+//
+//        byte[] decodedString = Base64.decode(person_object.getPhoto(),Base64.NO_WRAP);
+//        InputStream inputStream  = new ByteArrayInputStream(decodedString);
+//        Bitmap bitmap  = BitmapFactory.decodeStream(inputStream);
+//        user_image.setImageBitmap(bitmap);
+//
+            imageView.setImageBitmap(bmp);
+
+         imageUri= getImageUri(this,bmp);
+
+    }
+
+    private Uri getImageUri(Context context, Bitmap inImage) throws IOException {
+
+        FileOutputStream fileOutputStream=null;
+
+        File sdCard = new File(Environment.getExternalStorageState());
+
+        File directory = new File(sdCard.getAbsoluteFile()+"/EchoVector");
+
+        directory.mkdir();
+        String imageName=String.format("%d.jpg",System.currentTimeMillis());
+        File outFile =new File(directory,imageName);
+
+        Toast.makeText(Activity3_2.this,"Image Saved!",Toast.LENGTH_LONG).show();
+
+        fileOutputStream = new FileOutputStream(outFile);
+        inImage.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream);
+        try {
+            fileOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        fileOutputStream.close();
+
+        return Uri.fromFile(outFile);
+
     }
 }

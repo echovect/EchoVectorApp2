@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button3; //Button for Activity 4 which is upload product page
     private Button button4; // Button for Activity 5 which is product status page
     private Button startSequence;
+    private Button onImageLogo;
 
 
     private Button button3_2; // Button for Activity 5
@@ -51,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openActivity5(); //  Product Status Page
+
             }
         });
+
+
 
         startSequence = (Button) findViewById(R.id.startSequence);
         startSequence.setOnClickListener(new View.OnClickListener(){
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 openActivityList(); // List of Products Page
             }
         });
+
+
     }
 
     /** Opens second activity which is the registraion page*/
@@ -113,12 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
     /** Opens fifth activity which is the product status page */
     public void openActivity3_2() {
         Intent intent = new Intent(this, Activity3_2.class);
@@ -130,4 +130,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProductListActivity.class);
         startActivity(intent);
     }
+
 }
