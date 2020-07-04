@@ -33,7 +33,6 @@
 
     <Button
         android:id="@+id/businessLoginButton"
-        android:onClick="openActivity3_2"
         android:layout_width="182dp"
         android:layout_height="99dp"
         android:text="Business"

@@ -5,13 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity3">
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/expandableImage1"
+        android:layout_width="159dp"
+        android:layout_height="115dp"
+        android:src="@drawable/logo2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.279"></ImageView>
 
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/expandableImage2"
+        android:layout_width="159dp"
+        android:layout_height="115dp"
+        android:src="@drawable/logo2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.63"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.279"></ImageView>
 
     <Button
         android:id="@+id/productList"
         android:layout_width="431dp"
         android:layout_height="104dp"
-        android:onClick="openOrders"
+        android:onClick="openActivity5"
         android:text="Orders"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,8 +60,8 @@
         android:id="@+id/logout"
         android:layout_width="119dp"
         android:layout_height="69dp"
-        android:onClick="startSequence"
-        android:text="Logout"
+        android:onClick="openOrders"
+        android:text="Product Offerings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/productStatus"
         app:layout_constraintHorizontal_bias="0.096"
@@ -56,6 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.009"></ImageView>
+
 
     <Button
         android:id="@+id/endorseProduct"
@@ -93,6 +118,20 @@
         app:layout_constraintStart_toEndOf="@+id/productImage"
         app:layout_constraintTop_toBottomOf="@+id/productTitle"
         app:layout_constraintVertical_bias="0.058"></TextView>
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="79dp"
+        android:layout_height="34dp"
+        android:text="Expand"
+        android:textSize="10dp"
+        android:onClick="expandProducts"
+        app:layout_constraintBottom_toTopOf="@+id/productStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endorseProduct"
+        app:layout_constraintVertical_bias="0.023" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

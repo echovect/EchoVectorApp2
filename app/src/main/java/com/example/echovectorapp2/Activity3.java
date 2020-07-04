@@ -20,11 +20,29 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class Activity3 extends AppCompatActivity {
 
+    
     ExpandableListView expandableListView;
 
     /** Opens settings page */
     public void openSettings(View v) {
         Intent intent = new Intent(this, settings.class);
+        startActivity(intent);
+    }
+
+    /** Expands product menu */
+    public void expandProducts(View v) {
+
+        findViewById(R.id.expandableImage1).setVisibility(View.VISIBLE);
+        findViewById(R.id.expandableImage2).setVisibility(View.VISIBLE);
+
+
+    }
+
+
+
+    /** Opens fifth activity which is the product status page */
+    public void openActivity5(View v) {
+        Intent intent = new Intent(this, Activity5.class);
         startActivity(intent);
     }
 
