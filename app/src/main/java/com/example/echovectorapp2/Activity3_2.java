@@ -89,25 +89,6 @@ public class Activity3_2 extends AppCompatActivity implements View.OnClickListen
     private Uri imageUri;
     private Bitmap bmp;
 
-    /** Opens first page of sequence */
-    public void startSequence(View v) {
-        Intent intent = new Intent(this, sequencePage1.class);
-        startActivity(intent);
-    }
-
-
-    /** Opens settings page */
-    public void openBusinessSettings(View v) {
-        Intent intent = new Intent(this, settingsBusiness.class);
-        startActivity(intent);
-    }
-
-    /** Opens product offerings page*/
-    public void openOfferings(View v) {
-        Intent intent = new Intent(this, productOfferings.class);
-        startActivity(intent);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

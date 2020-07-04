@@ -7,5 +7,4 @@
     <string name="product_images">product_images</string>
     <string name="menu_add">menu_add</string>
     <string name="add_product_hint">Add product by clicking the plus icon</string>
-    <color name="white">#FFFFFF</color>
 </resources>
