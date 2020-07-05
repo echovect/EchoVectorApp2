@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity3">
+    tools:context=".businessActivity3">
     <ImageView
         android:visibility="invisible"
         android:id="@+id/expandableImage1"
@@ -32,11 +32,11 @@
         app:layout_constraintVertical_bias="0.279"></ImageView>
 
     <Button
-        android:id="@+id/productList"
+        android:id="@+id/postProductOfferings"
         android:layout_width="431dp"
         android:layout_height="104dp"
-        android:onClick="openActivity5"
-        android:text="Orders"
+        android:onClick="openProductOfferings"
+        android:text="Post Product Offerings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,29 +45,29 @@
 
     <Button
         android:id="@+id/productStatus"
-        android:layout_width="110dp"
-        android:layout_height="67dp"
+        android:layout_width="91dp"
+        android:layout_height="102dp"
         android:onClick="openSettings"
         android:text="Settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.971"></Button>
+        app:layout_constraintVertical_bias="1.0"></Button>
 
     <Button
-        android:id="@+id/logout"
-        android:layout_width="119dp"
-        android:layout_height="69dp"
-        android:onClick="openActivity3"
+        android:id="@+id/ProductOfferings"
+        android:layout_width="109dp"
+        android:layout_height="96dp"
+        android:onClick="openPostProductOfferings"
         android:text="Product Offerings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/productStatus"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productImage"
-        app:layout_constraintVertical_bias="0.97"></Button>
+        app:layout_constraintVertical_bias="1.0"></Button>
 
     <ImageView
         android:id="@+id/productImage"

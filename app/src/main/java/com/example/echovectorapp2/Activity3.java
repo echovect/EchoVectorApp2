@@ -20,12 +20,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class Activity3 extends AppCompatActivity {
 
-    
+
     ExpandableListView expandableListView;
 
     /** Opens settings page */
     public void openSettings(View v) {
-        Intent intent = new Intent(this, settings.class);
+        Intent intent = new Intent(this, influencerSettings.class);
         startActivity(intent);
     }
 
@@ -39,7 +39,6 @@ public class Activity3 extends AppCompatActivity {
     }
 
 
-
     /** Opens fifth activity which is the product status page */
     public void openActivity5(View v) {
         Intent intent = new Intent(this, Activity5.class);
@@ -47,8 +46,8 @@ public class Activity3 extends AppCompatActivity {
     }
 
     /** Opens order page */
-    public void openOrders(View v) {
-        Intent intent = new Intent(this, orders.class);
+    public void openActivity3(View v) {
+        Intent intent = new Intent(this, Activity3.class);
         startActivity(intent);
     }
 

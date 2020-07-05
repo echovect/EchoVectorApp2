@@ -17,8 +17,8 @@ public class sequencePage1 extends AppCompatActivity {
     }
 
     /** Calls product upload page - intended for business owner log in*/
-    public void openActivity3_2(View v) {
-        Intent intent = new Intent(this, Activity3_2.class);
+    public void businessActivity3(View v) {
+        Intent intent = new Intent(this, businessActivity3.class);
         startActivity(intent);
     }
 
