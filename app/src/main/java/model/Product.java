@@ -10,9 +10,17 @@ public class Product {
     private String imageUrl;
 //    private String userId;
     private Timestamp timeAdded;
-//    private String userName;
+    private boolean expanded;
 
     public Product() { //Must for firestore to work
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 
     public Product(String title, String description, String imageUrl, /*String userId,  String userName,*/ Timestamp timeAdded) {
@@ -21,7 +29,7 @@ public class Product {
         this.imageUrl = imageUrl;
 //        this.userId = userId;
         this.timeAdded = timeAdded;
-//        this.userName = userName;
+        this.expanded=false;
     }
 
     public String getTitle() {
